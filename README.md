@@ -19,7 +19,7 @@ npm install --save @knowdev/log
 ### Wishlist 🌠
 
 * Levels
-* Format (text, json, table)
+* Format (text, chalk, json, table)
 * Meta
 * Tag
 * Notes
