@@ -6,7 +6,7 @@ const LEVEL = {
   WARN: "warn",
   ERROR: "error",
   FATAL: "fatal",
-  NONE: "none",
+  SILENT: "silent",
 };
 
 const LEVEL_VALUES = {

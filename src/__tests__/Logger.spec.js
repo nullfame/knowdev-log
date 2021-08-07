@@ -230,7 +230,7 @@ describe("Logger", () => {
     });
     describe("Silent", () => {
       beforeEach(() => {
-        log = new Logger({ level: LEVEL.NONE });
+        log = new Logger({ level: LEVEL.SILENT });
       });
 
       it("Does not log trace level", () => {

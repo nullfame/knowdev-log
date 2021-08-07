@@ -41,6 +41,10 @@ describe("Index", () => {
     expect(log.log).toBeFunction();
   });
 
+  it("Includes a silent instance", async () => {
+    expect(log.silent).toBeObject();
+  });
+
   it("Includes LOG_LEVEL", async () => {
     expect(log.LOG_LEVEL).toBeObject();
     expect(log.LOG_LEVEL.ALL).toBeString();
@@ -50,6 +54,6 @@ describe("Index", () => {
     expect(log.LOG_LEVEL.WARN).toBeString();
     expect(log.LOG_LEVEL.ERROR).toBeString();
     expect(log.LOG_LEVEL.FATAL).toBeString();
-    expect(log.LOG_LEVEL.NONE).toBeString();
+    expect(log.LOG_LEVEL.SILENT).toBeString();
   });
 });
