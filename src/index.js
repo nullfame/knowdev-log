@@ -1,3 +1,4 @@
+const { LEVEL } = require("./util/constants");
 const Logger = require("./Logger");
 
 //
@@ -12,6 +13,7 @@ const log = new Logger();
 // Decorate
 //
 
+log.LOG_LEVEL = LEVEL;
 log.Logger = Logger;
 
 //
