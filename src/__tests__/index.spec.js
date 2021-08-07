@@ -37,6 +37,10 @@ describe("Index", () => {
     expect(log.Logger).toBeClass();
   });
 
+  it("Includes a log function", async () => {
+    expect(log.log).toBeFunction();
+  });
+
   it("Includes LOG_LEVEL", async () => {
     expect(log.LOG_LEVEL).toBeObject();
     expect(log.LOG_LEVEL.ALL).toBeString();
