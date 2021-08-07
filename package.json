@@ -1,0 +1,37 @@
+{
+  "name": "@knowdev/log",
+  "version": "0.0.1",
+  "description": "Logging toolkit",
+  "license": "UNLICENSED",
+  "author": "Adam Finlayson",
+  "main": "src/index.js",
+  "scripts": {
+    "test:spec:log": "jest ./src/__tests__/log.spec.js",
+
+    "clean": "npm run test:clean",
+    "format": "sort-package-json && eslint --fix",
+    "lint": "eslint",
+    "prepare": "npm run prepare:husky",
+    "prepare:husky": "husky install",
+    "test": "jest src/",
+    "test:clean": "rimraf coverage/",
+    "test:coverage": "jest --coverage src/",
+    "postversion": "npm publish"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
+    "hygen": "^6.1.0",
+    "jest": "^27.0.6",
+    "jest-extended": "^0.11.5",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "sort-package-json": "^1.50.0"
+  }
+}
