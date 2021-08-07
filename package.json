@@ -6,7 +6,6 @@
   "author": "Adam Finlayson",
   "main": "src/index.js",
   "scripts": {
-    "test:spec:log": "jest ./src/__tests__/log.spec.js",
     "clean": "npm run test:clean",
     "format": "sort-package-json && eslint --fix",
     "lint": "eslint",
@@ -15,7 +14,9 @@
     "test": "jest src/",
     "test:clean": "rimraf coverage/",
     "test:coverage": "jest --coverage src/",
-    "postversion": "npm publish"
+    "postversion": "npm publish",
+    "test:spec:index": "jest ./src/__tests__/index.spec.js",
+    "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js"
   },
   "devDependencies": {
     "@knowdev/jest": "^0.1.2",
