@@ -75,7 +75,14 @@ npm publish --access=public
 
 * Format (text, chalk, json, table)
 * Meta
+  * Flag
+  * Function
+  * Level
+  * Library (lib)
+  * Note
+  * Variable (var)
 * Tag
+  * Level
 * Notes
 * Observing/OpenTracing
   * log.span.start/stop
