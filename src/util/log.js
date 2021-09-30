@@ -1,3 +1,4 @@
+const { COLOR } = require("./constants");
 const stringify = require("./stringify");
 
 //
@@ -5,9 +6,9 @@ const stringify = require("./stringify");
 // Main
 //
 
-const log = (messages) => {
+const log = (messages, color = COLOR.PLAIN) => {
   // eslint-disable-next-line no-console
-  console.log(stringify(...messages));
+  console.log(color(stringify(...messages)));
 };
 
 //

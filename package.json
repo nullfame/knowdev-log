@@ -14,6 +14,7 @@
     "test": "jest src/",
     "test:clean": "rimraf coverage/",
     "test:coverage": "jest --coverage src/",
+    "test:spec:color": "jest ./src/__tests__/color.spec.js",
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
     "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
