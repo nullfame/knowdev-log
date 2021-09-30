@@ -1,3 +1,15 @@
+const chalk = require("chalk");
+
+const COLOR = {
+  PLAIN: chalk,
+  TRACE: chalk.bgBlackBright,
+  DEBUG: chalk.bgBlack,
+  INFO: chalk.bgBlue,
+  WARN: chalk.bgYellow,
+  ERROR: chalk.bgRed,
+  FATAL: chalk.bgRedBright,
+};
+
 const FORMAT = {
   COLOR: "color",
   JSON: "json",
@@ -28,6 +40,7 @@ const LEVEL_VALUES = {
 };
 
 module.exports = {
+  COLOR,
   FORMAT,
   LEVEL,
   LEVEL_VALUES,
