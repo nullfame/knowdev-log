@@ -1,3 +1,9 @@
+const FORMAT = {
+  COLOR: "color",
+  JSON: "json",
+  TEXT: "text",
+};
+
 const LEVEL = {
   ALL: "all",
   TRACE: "trace",
@@ -22,6 +28,7 @@ const LEVEL_VALUES = {
 };
 
 module.exports = {
+  FORMAT,
   LEVEL,
   LEVEL_VALUES,
 };
