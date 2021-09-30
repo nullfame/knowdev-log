@@ -73,7 +73,12 @@ npm publish --access=public
 
 ### Wishlist 🌠
 
-* Format (text, chalk, json, table)
+* Level: Success, Nonsuccess
+* Format
+  * Text
+  * Color
+  * JSON
+  * ...Table
 * Meta
   * Flag
   * Function
