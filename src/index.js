@@ -1,4 +1,4 @@
-const { LEVEL } = require("./util/constants");
+const { FORMAT, LEVEL } = require("./util/constants");
 const Logger = require("./Logger");
 
 //
@@ -14,6 +14,7 @@ const log = new Logger();
 //
 
 log.log = log.debug;
+log.LOG_FORMAT = FORMAT;
 log.LOG_LEVEL = LEVEL;
 log.Logger = Logger;
 log.silent = new Logger({ level: LEVEL.SILENT });
