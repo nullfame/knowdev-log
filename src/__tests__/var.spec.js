@@ -39,6 +39,10 @@ describe("Var", () => {
     log.var("msg", "Hello");
     expect(mockLog).toBeCalledWithInitialParams([{ msg: "Hello" }]);
   });
+  it("Works as chained function", () => {
+    log.info.var("msg", "Hello");
+    expect(mockLog).toBeCalledWithInitialParams([{ msg: "Hello" }]);
+  });
   it("Shows undefined second param", () => {
     log.var("msg", undefined);
     expect(mockLog).toBeCalledWithInitialParams([{ msg: "undefined" }]);

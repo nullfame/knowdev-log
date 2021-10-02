@@ -78,39 +78,43 @@ class Logger {
               });
             break;
         } // switch format
+
+        // Build var function
+        this[LEVEL[LEVEL_KEY]].var = (messageObject, messageValue) => {
+          // Log undefined warning
+          if (messageObject === undefined) {
+            this.warn(ERROR.VAR.UNDEFINED_MESSAGE);
+          }
+
+          // If passing two params
+          if (typeof messageObject !== "object") {
+            /* eslint-disable no-param-reassign */
+            if (messageValue === undefined) messageValue = "undefined";
+            messageObject = { [messageObject]: messageValue };
+            /* eslint-enable no-param-reassign */
+          }
+
+          //* At this point we know this is an object or null
+
+          // Log null object warning
+          if (messageObject === null) {
+            this.warn(ERROR.VAR.NULL_OBJECT);
+
+            // Log empty object warning
+          } else if (Object.keys(messageObject).length === 0) {
+            this.warn(ERROR.VAR.EMPTY_OBJECT);
+          } else if (Object.keys(messageObject).length > 1) {
+            this.warn(ERROR.VAR.MULTIPLE_KEYS);
+          }
+
+          // Log the real message
+          return this[LEVEL[LEVEL_KEY]](messageObject);
+        };
       } // if !PSEUDO_LEVELS
     }); // forEach LEVEL_KEYS
 
-    // Build out var function
-    this.var = (messageObject, messageValue) => {
-      // Log undefined warning
-      if (messageObject === undefined) {
-        this.warn(ERROR.VAR.UNDEFINED_MESSAGE);
-      }
-
-      // If passing two params
-      if (typeof messageObject !== "object") {
-        // eslint-disable-next-line no-param-reassign
-        if (messageValue === undefined) messageValue = "undefined";
-        return this[this.options.varLevel]({ [messageObject]: messageValue });
-      }
-
-      //* At this point we know this is an object or null
-
-      // Log null object warning
-      if (messageObject === null) {
-        this.warn(ERROR.VAR.NULL_OBJECT);
-
-        // Log empty object warning
-      } else if (Object.keys(messageObject).length === 0) {
-        this.warn(ERROR.VAR.EMPTY_OBJECT);
-      } else if (Object.keys(messageObject).length > 1) {
-        this.warn(ERROR.VAR.MULTIPLE_KEYS);
-      }
-
-      // Log the real message
-      return this[this.options.varLevel](messageObject);
-    };
+    // Link var convenience function
+    this.var = this[this.options.varLevel].var;
   } // END constructor
 }
 
