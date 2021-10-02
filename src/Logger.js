@@ -9,6 +9,8 @@ const logFunction = require("./util/log");
 const DEFAULT_LOG_FORMAT = FORMAT.COLOR;
 const DEFAULT_LOG_LEVEL = LEVEL.DEBUG;
 
+const PSEUDO_LEVELS = ["ALL", "SILENT"];
+
 //
 //
 // Helper Functions
@@ -36,54 +38,35 @@ class Logger {
     format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
     level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
   } = {}) {
+    // Set options
     this.options = {
       format,
       level,
     };
-  }
 
-  //
-  //
-  // Log level functions
-  //
+    // Build out the functions for each level
+    const LEVEL_KEYS = Object.keys(LEVEL);
+    LEVEL_KEYS.forEach((LEVEL_KEY) => {
+      // Ignore the pseudo levels
+      if (!PSEUDO_LEVELS.includes(LEVEL_KEY)) {
+        switch (format) {
+          case FORMAT.COLOR:
+            this[LEVEL[LEVEL_KEY]] = (...messages) =>
+              log(messages, LEVEL[LEVEL_KEY], level, {
+                color: COLOR[LEVEL_KEY],
+              });
+            break;
 
-  /* eslint-disable class-methods-use-this */
-  debug(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.DEBUG : COLOR.PLAIN;
-    log(messages, LEVEL.DEBUG, this.options.level, { color });
-  }
-
-  error(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.ERROR : COLOR.PLAIN;
-    log(messages, LEVEL.ERROR, this.options.level, { color });
-  }
-
-  fatal(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.FATAL : COLOR.PLAIN;
-    log(messages, LEVEL.FATAL, this.options.level, { color });
-  }
-
-  info(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.INFO : COLOR.PLAIN;
-    log(messages, LEVEL.INFO, this.options.level, { color });
-  }
-
-  trace(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.TRACE : COLOR.PLAIN;
-    log(messages, LEVEL.TRACE, this.options.level, { color });
-  }
-
-  warn(...messages) {
-    const color =
-      this.options.format === FORMAT.COLOR ? COLOR.WARN : COLOR.PLAIN;
-    log(messages, LEVEL.WARN, this.options.level, { color });
-  }
-  /* eslint-enable class-methods-use-this */
+          default:
+            this[LEVEL[LEVEL_KEY]] = (...messages) =>
+              log(messages, LEVEL[LEVEL_KEY], level, {
+                color: COLOR.PLAIN,
+              });
+            break;
+        }
+      }
+    });
+  } // END constructor
 }
 
 //
