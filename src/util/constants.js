@@ -10,6 +10,16 @@ const COLOR = {
   FATAL: chalk.bgRedBright,
 };
 
+const ERROR_PREFIX = '{ "lib": "@knowdev/log" }:';
+const ERROR = {
+  VAR: {
+    EMPTY_OBJECT: `${ERROR_PREFIX} Logger.var() called with empty object`,
+    MULTIPLE_KEYS: `${ERROR_PREFIX} Logger.var() called with multiple keys`,
+    NULL_OBJECT: `${ERROR_PREFIX} Logger.var() called with null`,
+    UNDEFINED_MESSAGE: `${ERROR_PREFIX} Logger.var() called with \`undefined\` message`,
+  },
+};
+
 const FORMAT = {
   COLOR: "color",
   JSON: "json",
@@ -41,6 +51,7 @@ const LEVEL_VALUES = {
 
 module.exports = {
   COLOR,
+  ERROR,
   FORMAT,
   LEVEL,
   LEVEL_VALUES,
