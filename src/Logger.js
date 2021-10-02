@@ -90,6 +90,7 @@ class Logger {
 
       // If passing two params
       if (typeof messageObject !== "object") {
+        // eslint-disable-next-line no-param-reassign
         if (messageValue === undefined) messageValue = "undefined";
         return this[this.options.varLevel]({ [messageObject]: messageValue });
       }
@@ -108,7 +109,7 @@ class Logger {
       }
 
       // Log the real message
-      this[this.options.varLevel](messageObject);
+      return this[this.options.varLevel](messageObject);
     };
   } // END constructor
 }
