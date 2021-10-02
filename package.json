@@ -18,10 +18,11 @@
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
     "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
+    "test:spec:var": "jest ./src/__tests__/var.spec.js",
     "postversion": "npm publish"
   },
   "devDependencies": {
-    "@knowdev/jest": "^0.1.2",
+    "@knowdev/jest": "^0.2.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
