@@ -65,7 +65,8 @@ npm publish --access=public
 
 ## 📝 Changelog
 
-* v0.2.0 - Logger.var()
+* v0.2.1 - Chained Logger.info.var(), etc functions
+* v0.2.0 - Logger.var(), colors
 * v0.1.0 - Basic log levels, silent
 
 ## 🛣 Roadmap
@@ -76,8 +77,6 @@ npm publish --access=public
 
 * Level: Success, Nonsuccess
 * Format
-  * Text
-  * Color
   * JSON
   * ...Table
 * Meta
