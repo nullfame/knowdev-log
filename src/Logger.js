@@ -77,8 +77,8 @@ class Logger {
                 color: COLOR.PLAIN,
               });
             break;
-        }
-      }
+        } // switch format
+      } // if !PSEUDO_LEVELS
     }); // forEach LEVEL_KEYS
 
     // Build out var function
