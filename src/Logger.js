@@ -34,6 +34,11 @@ function log(
 //
 
 class Logger {
+  //
+  //
+  // Constructor
+  //
+
   constructor({
     format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
     level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
