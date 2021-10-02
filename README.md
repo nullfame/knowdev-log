@@ -65,6 +65,7 @@ npm publish --access=public
 
 ## 📝 Changelog
 
+* v0.2.0 - Logger.var()
 * v0.1.0 - Basic log levels, silent
 
 ## 🛣 Roadmap

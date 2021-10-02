@@ -1,4 +1,10 @@
-const { COLOR, FORMAT, LEVEL, LEVEL_VALUES } = require("./util/constants");
+const {
+  COLOR,
+  ERROR,
+  FORMAT,
+  LEVEL,
+  LEVEL_VALUES,
+} = require("./util/constants");
 const logFunction = require("./util/log");
 
 //
@@ -8,6 +14,7 @@ const logFunction = require("./util/log");
 
 const DEFAULT_LOG_FORMAT = FORMAT.COLOR;
 const DEFAULT_LOG_LEVEL = LEVEL.DEBUG;
+const DEFAULT_LOG_VAR_LEVEL = LEVEL.DEBUG;
 
 const PSEUDO_LEVELS = ["ALL", "SILENT"];
 
@@ -42,11 +49,13 @@ class Logger {
   constructor({
     format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
     level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
+    varLevel = process.env.LOG_VAR_LEVEL || DEFAULT_LOG_VAR_LEVEL,
   } = {}) {
     // Set options
     this.options = {
       format,
       level,
+      varLevel,
     };
 
     // Build out the functions for each level
@@ -70,7 +79,37 @@ class Logger {
             break;
         }
       }
-    });
+    }); // forEach LEVEL_KEYS
+
+    // Build out var function
+    this.var = (messageObject, messageValue) => {
+      // Log undefined warning
+      if (messageObject === undefined) {
+        this.warn(ERROR.VAR.UNDEFINED_MESSAGE);
+      }
+
+      // If passing two params
+      if (typeof messageObject !== "object") {
+        if (messageValue === undefined) messageValue = "undefined";
+        return this[this.options.varLevel]({ [messageObject]: messageValue });
+      }
+
+      //* At this point we know this is an object or null
+
+      // Log null object warning
+      if (messageObject === null) {
+        this.warn(ERROR.VAR.NULL_OBJECT);
+
+        // Log empty object warning
+      } else if (Object.keys(messageObject).length === 0) {
+        this.warn(ERROR.VAR.EMPTY_OBJECT);
+      } else if (Object.keys(messageObject).length > 1) {
+        this.warn(ERROR.VAR.MULTIPLE_KEYS);
+      }
+
+      // Log the real message
+      this[this.options.varLevel](messageObject);
+    };
   } // END constructor
 }
 
