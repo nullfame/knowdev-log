@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { FORMAT, LEVEL } = require("./util/constants");
 const Logger = require("./Logger");
 
