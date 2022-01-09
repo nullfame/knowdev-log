@@ -65,6 +65,7 @@ npm publish --access=public
 
 ## 📝 Changelog
 
+* v0.3.0 - Checks `.env` for settings
 * v0.2.1 - Chained Logger.info.var(), etc functions
 * v0.2.0 - Logger.var(), colors
 * v0.1.0 - Basic log levels, silent
