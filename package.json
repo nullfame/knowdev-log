@@ -39,6 +39,7 @@
     "sort-package-json": "^1.50.0"
   },
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "dotenv": "^10.0.0"
   }
 }
