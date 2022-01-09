@@ -21,6 +21,7 @@ beforeEach(() => {
 });
 afterEach(() => {
   process.env = DEFAULT_ENV;
+  jest.resetModules();
 });
 
 //
@@ -55,5 +56,17 @@ describe("Index", () => {
     expect(log.LOG_LEVEL.ERROR).toBeString();
     expect(log.LOG_LEVEL.FATAL).toBeString();
     expect(log.LOG_LEVEL.SILENT).toBeString();
+  });
+
+  it("Sets MODULE_LOGGER `false` by default", () => {
+    // eslint-disable-next-line global-require
+    require("../index");
+    expect(process.env.MODULE_LOGGER).toBeFalse();
+  });
+  it("Allows MODULE_LOGGER to be `true`", () => {
+    process.env.MODULE_LOGGER = "true";
+    // eslint-disable-next-line global-require
+    require("../index");
+    expect(process.env.MODULE_LOGGER).toBeTrue();
   });
 });

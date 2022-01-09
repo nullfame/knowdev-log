@@ -1,7 +1,18 @@
 require("dotenv").config();
 
+const { envBoolean } = require("@knowdev/functions");
+
 const { FORMAT, LEVEL } = require("./util/constants");
 const Logger = require("./Logger");
+
+//
+//
+// Normalize environment
+//
+
+process.env.MODULE_LOGGER = envBoolean("MODULE_LOGGER", {
+  defaultValue: false,
+});
 
 //
 //
