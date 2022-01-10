@@ -39,12 +39,22 @@ const log = new Logger({
 
 ### Conveniences
 
-#### Stand-alone Log Function (debug)
+#### Log Function, Stand-alone (debug)
 
 ``` javascript
 const { log } = require("@knowdev/log");
 
 log(message);
+```
+
+#### Module Logger
+
+Uses `silent` by default.  if `process.env.MODULE_LOG_LEVEL` is `true`, follows `process.env.LOG_LEVEL`.  If `process.env.MODULE_LOG_LEVEL` is also set, uses that log level.
+
+``` javascript
+const { moduleLogger } = require("@knowdev/log");
+
+moduleLogger.trace();
 ```
 
 #### Silent Log
@@ -65,6 +75,7 @@ npm publish --access=public
 
 ## 📝 Changelog
 
+* v0.4.0 - Exports moduleLogger
 * v0.3.0 - Checks `.env` for settings
 * v0.2.1 - Chained Logger.info.var(), etc functions
 * v0.2.0 - Logger.var(), colors
