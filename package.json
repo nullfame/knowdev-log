@@ -9,17 +9,21 @@
     "clean": "npm run test:clean",
     "format": "sort-package-json && eslint --fix",
     "lint": "eslint",
-    "prepare": "npm run prepare:husky",
-    "prepare:husky": "husky install",
+    "prepare": "husky install",
     "test": "jest src/",
     "test:clean": "rimraf coverage/",
     "test:coverage": "jest --coverage src/",
+    "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
     "test:spec:color": "jest ./src/__tests__/color.spec.js",
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
-    "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
     "test:spec:var": "jest ./src/__tests__/var.spec.js",
     "postversion": "npm publish"
+  },
+  "dependencies": {
+    "@knowdev/functions": "^0.2.1",
+    "chalk": "^4.1.2",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "@knowdev/jest": "^0.2.1",
@@ -29,18 +33,13 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^7.0.1",
+    "husky": "^8.0.3",
     "hygen": "^6.1.0",
     "jest": "^27.0.6",
     "jest-extended": "^1.2.0",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^14.0.1",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "sort-package-json": "^1.50.0"
-  },
-  "dependencies": {
-    "@knowdev/functions": "^0.2.1",
-    "chalk": "^4.1.2",
-    "dotenv": "^10.0.0"
   }
 }

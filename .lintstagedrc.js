@@ -1,10 +1,8 @@
 module.exports = {
   "*.js": [
-    "eslint --fix",
-    "git add"
+    "eslint --fix"
   ],
   "package.json": [
-    "sort-package-json",
-    "git add"
+    "sort-package-json"
   ],
 };
