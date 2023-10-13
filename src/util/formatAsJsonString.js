@@ -31,7 +31,7 @@ const formatAsJsonString = (subject) => {
               nextSubject[key] = String(subject[key]);
               return nextSubject;
             },
-            {}
+            {},
           );
           return formatAsJsonString(truncatedSubject);
         }

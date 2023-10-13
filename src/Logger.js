@@ -28,7 +28,7 @@ function log(
   messages,
   logLevel,
   checkLevel = DEFAULT_LOG_LEVEL,
-  { color = COLOR.PLAIN } = {}
+  { color = COLOR.PLAIN } = {},
 ) {
   if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
     logFunction(messages, color);
