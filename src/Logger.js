@@ -51,12 +51,32 @@ class Logger {
     level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
     varLevel = process.env.LOG_VAR_LEVEL || DEFAULT_LOG_VAR_LEVEL,
   } = {}) {
+    //
+    //
+    // Validate
+    //
+
+    //
+    //
+    // Setup
+    //
+
     // Set options
     this.options = {
       format,
       level,
       varLevel,
     };
+
+    //
+    //
+    // Preprocess
+    //
+
+    //
+    //
+    // Process
+    //
 
     // Build out the functions for each level
     const LEVEL_KEYS = Object.keys(LEVEL);
@@ -113,8 +133,20 @@ class Logger {
       } // if !PSEUDO_LEVELS
     }); // forEach LEVEL_KEYS
 
+    //
+    //
+    // Postprocess
+    //
+
     // Link var convenience function
     this.var = this[this.options.varLevel].var;
+
+    //
+    //
+    // Return
+    //
+
+    // * We could expressly return `this` but it is implicit in JS
   } // END constructor
 }
 
