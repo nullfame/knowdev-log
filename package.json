@@ -9,38 +9,41 @@
     "clean": "npm run test:clean",
     "format": "sort-package-json && eslint --fix",
     "lint": "eslint",
-    "prepare": "npm run prepare:husky",
-    "prepare:husky": "husky install",
+    "prepare": "husky install",
     "test": "jest src/",
     "test:clean": "rimraf coverage/",
     "test:coverage": "jest --coverage src/",
+    "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
     "test:spec:color": "jest ./src/__tests__/color.spec.js",
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
-    "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
     "test:spec:var": "jest ./src/__tests__/var.spec.js",
     "postversion": "npm publish"
   },
-  "devDependencies": {
-    "@knowdev/jest": "^0.2.1",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jest": "^24.4.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^7.0.1",
-    "hygen": "^6.1.0",
-    "jest": "^27.0.6",
-    "jest-extended": "^1.2.0",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
-    "rimraf": "^3.0.2",
-    "sort-package-json": "^1.50.0"
-  },
   "dependencies": {
-    "@knowdev/functions": "^0.2.1",
+    "@knowdev/functions": "^1.0.0",
     "chalk": "^4.1.2",
-    "dotenv": "^10.0.0"
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@knowdev/jest": "1.1",
+    "eslint": "^8.51.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^27.4.2",
+    "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.3",
+    "hygen": "^6.1.0",
+    "jest": "^29.7.0",
+    "jest-extended": "^4.0.2",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "sort-package-json": "^2.6.0"
+  },
+  "volta": {
+    "node": "18.18.0",
+    "npm": "9.8.1"
   }
 }
