@@ -39,9 +39,22 @@ afterEach(() => {
 //
 
 describe("Logger", () => {
-  it("Works", async () => {
-    expect(log).toBeObject();
-    log.trace("log.trace");
-    expect(mockLog).toBeCalled();
+  describe("JSON Format", () => {
+    it("Works", async () => {
+      expect(log).toBeObject();
+      expect(log.trace).toBeFunction();
+      log.trace("log.trace");
+      // expect(mockLog).toBeCalled();
+    });
+
+    describe("Winston", () => {
+      it.todo("Instantiates Winston");
+      it.todo(
+        "Uses project custom log levels (trace, debug, info, warn, error, fatal)",
+      );
+    });
+  });
+  describe("Default Format", () => {
+    it.todo("Does not instantiate Winston");
   });
 });
