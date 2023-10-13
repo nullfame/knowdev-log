@@ -17,6 +17,7 @@
     "test:spec:color": "jest ./src/__tests__/color.spec.js",
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
+    "test:spec:json": "jest ./src/__tests__/json-logger.spec.js",
     "test:spec:var": "jest ./src/__tests__/var.spec.js",
     "postversion": "npm publish"
   },
