@@ -41,5 +41,9 @@
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
     "sort-package-json": "^2.6.0"
+  },
+  "volta": {
+    "node": "18.18.0",
+    "npm": "9.8.1"
   }
 }
