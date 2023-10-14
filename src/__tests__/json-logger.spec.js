@@ -60,6 +60,14 @@ describe("Logger", () => {
       expect(logObject).toContainKey("level");
     });
   });
+  describe("Data field", () => {
+    it.todo("Is available when log.var() is called");
+    it.todo("Is available when an object is given to the message");
+    it.todo("Future: is available when a JSON string is given to the message");
+    it.todo("Future: it tries to recursively parse JSON strings");
+    it.todo("Future: is available when log.data() is called");
+    it.todo("Future: is available when log.val() is called");
+  });
   describe("Tags", () => {
     it("Allows setting global tags in the constructor", () => {
       // Arrange
