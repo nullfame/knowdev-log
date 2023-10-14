@@ -15,6 +15,7 @@
     "test:coverage": "jest --coverage src/",
     "test:spec:Logger": "jest ./src/__tests__/Logger.spec.js",
     "test:spec:color": "jest ./src/__tests__/color.spec.js",
+    "test:spec:flatOne.util": "jest ./src/util/__tests__/flatOne.util.spec.js",
     "test:spec:formatAsJsonString.util": "jest ./src/util/__tests__/formatAsJsonString.spec.js",
     "test:spec:index": "jest ./src/__tests__/index.spec.js",
     "test:spec:json": "jest ./src/__tests__/json-logger.spec.js",
