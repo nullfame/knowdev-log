@@ -243,6 +243,13 @@ class Logger {
       delete this.tags[force.string(key)];
     }
   }
+
+  with(key, value) {
+    const logger = new Logger(this.options);
+    logger.tag(this.tags);
+    logger.tag(key, value);
+    return logger;
+  }
 }
 
 //

@@ -203,6 +203,54 @@ describe("Logger", () => {
       expect(logObject).not.toContainKey("key");
       expect(logObject).not.toContainKey("hello");
     });
-    it.todo("Allows tagging a single message");
+    it("Allows tagging a single message (key:value)", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.with("key", "value").trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("key");
+      expect(logObject.key).toBe("value");
+    });
+    it("Allows tagging a single message (object)", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.with({ hello: "world", key: ["value"] }).trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("hello");
+      expect(logObject).toContainKey("key");
+      expect(logObject.hello).toBe("world");
+      expect(logObject.key).toBe(`["value"]`);
+    });
+    it("Does not tag the second message after with()", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+        tags: { hello: "world" },
+      });
+      // Act
+      log.with("key", "value").info("log.info");
+      log.trace("log.trace");
+      // Assert
+      const taggedLogObject = mockLog.mock.calls[0][0];
+      expect(taggedLogObject).toContainKey("hello");
+      expect(taggedLogObject).toContainKey("key");
+      expect(taggedLogObject.hello).toBe("world");
+      expect(taggedLogObject.key).toBe("value");
+      const untaggedLogObject = mockLog.mock.calls[1][0];
+      expect(untaggedLogObject).toContainKey("hello");
+      expect(taggedLogObject.hello).toBe("world");
+      expect(untaggedLogObject).not.toContainKey("key");
+    });
   });
 });
