@@ -2,6 +2,7 @@ const { force } = require("@knowdev/arguments");
 
 const {
   COLOR,
+  DEFAULT,
   ERROR,
   FORMAT,
   LEVEL,
@@ -15,10 +16,6 @@ const stringify = require("./util/stringify");
 // Constants
 //
 
-const DEFAULT_LOG_FORMAT = FORMAT.COLOR;
-const DEFAULT_LOG_LEVEL = LEVEL.DEBUG;
-const DEFAULT_LOG_VAR_LEVEL = LEVEL.DEBUG;
-
 const PSEUDO_LEVELS = ["ALL", "SILENT"];
 
 //
@@ -30,7 +27,7 @@ const PSEUDO_LEVELS = ["ALL", "SILENT"];
 function log(
   messages,
   logLevel,
-  checkLevel = DEFAULT_LOG_LEVEL,
+  checkLevel = DEFAULT.LEVEL,
   { color = COLOR.PLAIN } = {},
 ) {
   if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
@@ -50,10 +47,10 @@ class Logger {
   //
 
   constructor({
-    format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
-    level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
+    format = process.env.LOG_FORMAT || DEFAULT.FORMAT,
+    level = process.env.LOG_LEVEL || DEFAULT.LEVEL,
     tags = {},
-    varLevel = process.env.LOG_VAR_LEVEL || DEFAULT_LOG_VAR_LEVEL,
+    varLevel = process.env.LOG_VAR_LEVEL || DEFAULT.VAR_LEVEL,
   } = {}) {
     //
     //
