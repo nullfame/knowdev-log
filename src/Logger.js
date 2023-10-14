@@ -6,6 +6,7 @@ const {
   LEVEL_VALUES,
 } = require("./util/constants");
 const logFunction = require("./util/log");
+const stringify = require("./util/stringify");
 
 //
 //
@@ -95,7 +96,11 @@ class Logger {
 
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
-              log(messages, LEVEL[LEVEL_KEY], level, {
+              const json = {
+                level: LEVEL[LEVEL_KEY],
+                message: stringify(...messages),
+              };
+              log(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
               });
             };
