@@ -69,8 +69,30 @@ describe("Logger", () => {
     it.todo("Future: is available when log.val() is called");
   });
   describe("Message", () => {
-    it.todo("Will stringify the message if it is an object");
-    it.todo("Will minify when stringify takes place");
+    it("Will stringify the message if it is an object", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace({ hello: "world" });
+      // Assert
+      expect(mockLog).toBeCalled();
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBeString();
+      expect(JSON.parse(logObject.message)).toEqual({ hello: "world" });
+      // expect(logObject.message).toBe(`{"hello":"world"}`);
+    });
+    it("Will minify when stringify takes place", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace({ hello: "world" });
+      // Assert
+      expect(mockLog).toBeCalled();
+      const logObject = mockLog.mock.calls[0][0];
+      console.log("logObject :>> ", logObject);
+      expect(logObject.message).toBe(JSON.stringify({ hello: "world" }));
+    });
     it.todo("Will toString anything else");
   });
   describe("Tags", () => {
