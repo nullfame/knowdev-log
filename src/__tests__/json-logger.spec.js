@@ -76,9 +76,36 @@ describe("Logger", () => {
       expect(logObject.key).toBe("value");
       // Done
     });
-    it.todo(
-      "Allows setting global tags in the constructor (will force string)",
-    );
+    it("Allows setting global tags in the constructor (will force string)", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+        tags: { key: ["value"] },
+      });
+      // Act
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("key");
+      expect(logObject.key).toBe(`["value"]`);
+      // Done
+    });
+    it("Allows setting global tags in the constructor (when passed null)", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+        tags: { key: null },
+      });
+      // Act
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("key");
+      expect(logObject.key).toBe("null");
+      // Done
+    });
     it.todo("Allows setting global tags individually");
     it.todo("Allows setting global tags with an object");
     it.todo("Allows setting global tags with an object (will force string)");
