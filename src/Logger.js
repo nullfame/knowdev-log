@@ -1,3 +1,5 @@
+const winston = require("winston");
+
 const {
   COLOR,
   ERROR,
@@ -73,6 +75,15 @@ class Logger {
     // Preprocess
     //
 
+    // If this is JSON, use winston
+    if (format === FORMAT.JSON) {
+      this.logger = winston.createLogger({
+        level,
+        format: winston.format.json(),
+        transports: [new winston.transports.Console()],
+      });
+    }
+
     //
     //
     // Process
@@ -89,6 +100,15 @@ class Logger {
               log(messages, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
               });
+            break;
+
+          case FORMAT.JSON:
+            this[LEVEL[LEVEL_KEY]] = (...messages) => {
+              this.logger.log(LEVEL[LEVEL_KEY], messages);
+              log(messages, LEVEL[LEVEL_KEY], level, {
+                color: COLOR[LEVEL_KEY],
+              });
+            };
             break;
 
           default:
