@@ -116,10 +116,7 @@ describe("Logger", () => {
     });
     it("Allows setting global tags individually", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.tag("key", "value");
       log.trace("log.trace");
@@ -130,10 +127,7 @@ describe("Logger", () => {
     });
     it("Allows setting global tags with an object", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.tag({ hello: "world", key: "value" });
       log.trace("log.trace");
@@ -146,10 +140,7 @@ describe("Logger", () => {
     });
     it("Allows setting global tags with an object (will force string)", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.tag({ hello: "world", key: ["value"] });
       log.trace("log.trace");
@@ -162,10 +153,7 @@ describe("Logger", () => {
     });
     it("Responds rationally if key doesn't have a value", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.tag({ key: undefined });
       log.trace("log.trace");
@@ -205,10 +193,7 @@ describe("Logger", () => {
     });
     it("Allows tagging a single message (key:value)", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.with("key", "value").trace("log.trace");
       // Assert
@@ -218,10 +203,7 @@ describe("Logger", () => {
     });
     it("Allows tagging a single message (object)", () => {
       // Arrange
-      log = new Logger({
-        format: FORMAT.JSON,
-        level: LEVEL.TRACE,
-      });
+      // N/A
       // Act
       log.with({ hello: "world", key: ["value"] }).trace("log.trace");
       // Assert
