@@ -1,3 +1,5 @@
+const { force } = require("@knowdev/arguments");
+
 const {
   COLOR,
   ERROR,
@@ -50,6 +52,7 @@ class Logger {
   constructor({
     format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
     level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
+    tags = {},
     varLevel = process.env.LOG_VAR_LEVEL || DEFAULT_LOG_VAR_LEVEL,
   } = {}) {
     //
@@ -68,6 +71,13 @@ class Logger {
       level,
       varLevel,
     };
+
+    // Set tags
+    this.tags = {};
+    // Force the value of all the keys in this.tags to be strings
+    Object.keys(tags).forEach((key) => {
+      this.tags[key] = force.string(tags[key]);
+    });
 
     //
     //
@@ -100,7 +110,7 @@ class Logger {
                 // data: flatOne(...messages) // will not be stringified; absent if message is string
                 level: LEVEL[LEVEL_KEY],
                 message: stringify(...messages), // message: will be stringified
-                // ...tags
+                ...this.tags,
               };
               log(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
