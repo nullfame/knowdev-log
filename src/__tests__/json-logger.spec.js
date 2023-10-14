@@ -12,8 +12,8 @@ const { LEVEL, FORMAT } = require("../util/constants");
 //
 
 const mockLog = jest.fn();
-jest.mock("../util/log", () => () => {
-  mockLog();
+jest.mock("../util/log", () => (...params) => {
+  mockLog(...params);
 });
 
 //
