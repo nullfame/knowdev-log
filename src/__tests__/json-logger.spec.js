@@ -60,5 +60,15 @@ describe("Logger", () => {
       expect(logObject).toContainKey("level");
     });
   });
-  it.todo("Allows tagging a single message");
+  describe("Tags", () => {
+    it.todo("Allows setting global tags in the constructor");
+    it.todo(
+      "Allows setting global tags in the constructor (will force string)",
+    );
+    it.todo("Allows setting global tags individually");
+    it.todo("Allows setting global tags with an object");
+    it.todo("Allows setting global tags with an object (will force string)");
+    it.todo("Allows removing global tags");
+    it.todo("Allows tagging a single message");
+  });
 });

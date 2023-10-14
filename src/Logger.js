@@ -97,8 +97,10 @@ class Logger {
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
               const json = {
+                // data: flatOne(...messages) // will not be stringified; absent if message is string
                 level: LEVEL[LEVEL_KEY],
-                message: stringify(...messages),
+                message: stringify(...messages), // message: will be stringified
+                // ...tags
               };
               log(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
