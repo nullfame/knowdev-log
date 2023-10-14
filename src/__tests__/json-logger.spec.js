@@ -68,6 +68,11 @@ describe("Logger", () => {
     it.todo("Future: is available when log.data() is called");
     it.todo("Future: is available when log.val() is called");
   });
+  describe("Message", () => {
+    it.todo("Will stringify the message if it is an object");
+    it.todo("Will minify when stringify takes place");
+    it.todo("Will toString anything else");
+  });
   describe("Tags", () => {
     it("Allows setting global tags in the constructor", () => {
       // Arrange
