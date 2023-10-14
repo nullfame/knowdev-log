@@ -178,6 +178,30 @@ class Logger {
 
   //
   //
+  // Placeholder Methods
+  //
+
+  // * Helps with autocomplete in IDEs
+  // All these methods are overwritten in the constructor
+
+  /* eslint-disable class-methods-use-this */
+  trace() {}
+
+  debug() {}
+
+  info() {}
+
+  warn() {}
+
+  error() {}
+
+  fatal() {}
+
+  var() {}
+  /* eslint-enable class-methods-use-this */
+
+  //
+  //
   // Methods
   //
 
