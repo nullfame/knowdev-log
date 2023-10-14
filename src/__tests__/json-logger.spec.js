@@ -114,9 +114,66 @@ describe("Logger", () => {
       expect(logObject.key).toBe("null");
       // Done
     });
-    it.todo("Allows setting global tags individually");
-    it.todo("Allows setting global tags with an object");
-    it.todo("Allows setting global tags with an object (will force string)");
+    it("Allows setting global tags individually", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.tag("key", "value");
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("key");
+      expect(logObject.key).toBe("value");
+    });
+    it("Allows setting global tags with an object", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.tag({ hello: "world", key: "value" });
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("hello");
+      expect(logObject).toContainKey("key");
+      expect(logObject.hello).toBe("world");
+      expect(logObject.key).toBe("value");
+    });
+    it("Allows setting global tags with an object (will force string)", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.tag({ hello: "world", key: ["value"] });
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("hello");
+      expect(logObject).toContainKey("key");
+      expect(logObject.hello).toBe("world");
+      expect(logObject.key).toBe(`["value"]`);
+    });
+    it("Responds rationally if key doesn't have a value", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+      });
+      // Act
+      log.tag({ key: undefined });
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).toContainKey("key");
+      expect(logObject.key).toBe(``);
+    });
     it.todo("Allows removing global tags");
     it.todo("Allows tagging a single message");
   });

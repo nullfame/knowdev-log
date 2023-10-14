@@ -175,6 +175,46 @@ class Logger {
 
     // * We could expressly return `this` but it is implicit in JS
   } // END constructor
+
+  //
+  //
+  // Methods
+  //
+
+  tag(key, value) {
+    // If value is present, we assume it is key:value
+    if (value) {
+      this.tags[force.string(key)] = force.string(value);
+      return;
+    }
+    // value = undefined
+
+    // If key is an array...
+    if (Array.isArray(key)) {
+      // ...we assume it is an array of strings
+      key.forEach((k) => {
+        this.tags[force.string(k)] = "";
+      });
+      return;
+    }
+    // key is not an array
+
+    // If key is null, tag it null:""
+    if (key === null) {
+      this.tags.null = "";
+      return;
+    }
+
+    // If key is an object, we merge in those values
+    if (typeof key === "object") {
+      Object.keys(key).forEach((k) => {
+        this.tags[force.string(k)] = force.string(key[k]);
+      });
+    } else {
+      // If key is not an object, we make it the key and set it to empty
+      this.tags[force.string(key)] = "";
+    }
+  }
 }
 
 //
