@@ -75,6 +75,7 @@ npm publish --access=public
 
 ## 📝 Changelog
 
+* v1.0.0 - Supports JSON type
 * v0.4.0 - Exports moduleLogger
 * v0.3.0 - Checks `.env` for settings
 * v0.2.1 - Chained Logger.info.var(), etc functions
@@ -89,7 +90,7 @@ npm publish --access=public
 
 * Level: Success, Nonsuccess
 * Format
-  * JSON
+  * Text: show tags, etc
   * ...Table
 * Meta
   * Flag
@@ -98,9 +99,6 @@ npm publish --access=public
   * Library (lib)
   * Note
   * Variable (var)
-* Tag
-  * Level
-* Notes
 * Observing/OpenTracing
   * log.span.start/stop
   * log.function.enter/return/throw/exit (trace)
