@@ -90,7 +90,7 @@ npm publish --access=public
 
 * Level: Success, Nonsuccess
 * Format
-  * Text: show tags, etc
+  * Text: show tags, pretty json, etc
   * ...Table
 * Meta
   * Flag

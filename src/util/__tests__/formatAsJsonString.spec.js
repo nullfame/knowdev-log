@@ -16,9 +16,11 @@ const TEST = {
     UNPARSABLE_STRING: "hello, world",
   },
   RESULT: {
-    ARRAY: '[\n  "one",\n  "two",\n  "three"\n]',
+    ARRAY: '["one","two","three"]',
     BOOLEAN: "true",
-    OBJECT: '{\n  "message": "hello"\n}',
+    OBJECT: '{"message":"hello"}',
+    PRETTY_ARRAY: '[\n  "one",\n  "two",\n  "three"\n]',
+    PRETTY_OBJECT: '{\n  "message": "hello"\n}',
     TWO_DOUBLE_QUOTES: `""`,
     UNDEFINED: "undefined",
   },
