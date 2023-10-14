@@ -174,7 +174,35 @@ describe("Logger", () => {
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe(``);
     });
-    it.todo("Allows removing global tags");
+    it("Allows removing global tags", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+        tags: { key: "value" },
+      });
+      // Act
+      log.untag("key");
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).not.toContainKey("key");
+    });
+    it("Allows removing tags by array", () => {
+      // Arrange
+      log = new Logger({
+        format: FORMAT.JSON,
+        level: LEVEL.TRACE,
+        tags: { key: "value", hello: "world" },
+      });
+      // Act
+      log.untag(["key", "hello"]);
+      log.trace("log.trace");
+      // Assert
+      const logObject = mockLog.mock.calls[0][0];
+      expect(logObject).not.toContainKey("key");
+      expect(logObject).not.toContainKey("hello");
+    });
     it.todo("Allows tagging a single message");
   });
 });
