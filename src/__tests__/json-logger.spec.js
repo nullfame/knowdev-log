@@ -253,4 +253,11 @@ describe("Logger", () => {
       expect(untaggedLogObject).not.toContainKey("key");
     });
   });
+  describe("log.var()", () => {
+    it.todo("Logs the value as the message");
+    it.todo("Logs the key as var");
+    it.todo("Logs the value as data");
+    it.todo("Stringifies the message if value is an object");
+    it.todo("Parses the data if value is a JSON string");
+  });
 });
