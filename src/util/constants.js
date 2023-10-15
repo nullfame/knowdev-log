@@ -11,6 +11,7 @@ const COLOR = {
 };
 
 const DEFAULT = {
+  COLOR: chalk,
   LEVEL: "debug",
   FORMAT: "color",
   VAR_LEVEL: "debug",
