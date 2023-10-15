@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+const { LEVEL } = require("../constants");
 const out = require("../out");
 
 //
@@ -56,11 +57,66 @@ describe("Logger", () => {
     });
   });
   describe("Log levels", () => {
-    it.todo("Calls console.debug for trace");
-    it.todo("Calls console.debug for debug");
-    it.todo("Calls console.info for info");
-    it.todo("Calls console.warn for warn");
-    it.todo("Calls console.error for error");
-    it.todo("Calls console.error for fatal");
+    it("Calls console.debug for trace", () => {
+      out("Hi.", { level: LEVEL.TRACE });
+      expect(console.debug).toBeCalled();
+      expect(console.debug).toBeCalledTimes(1);
+      expect(console.info).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+      expect(console.error).not.toBeCalled();
+    });
+    it("Calls console.debug for debug", () => {
+      out("Hi.", { level: LEVEL.DEBUG });
+      expect(console.debug).toBeCalled();
+      expect(console.debug).toBeCalledTimes(1);
+      expect(console.info).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+      expect(console.error).not.toBeCalled();
+    });
+    it("Calls console.info for info", () => {
+      out("Hi.", { level: LEVEL.INFO });
+      expect(console.info).toBeCalled();
+      expect(console.info).toBeCalledTimes(1);
+      expect(console.debug).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+      expect(console.error).not.toBeCalled();
+    });
+    it("Calls console.warn for warn", () => {
+      out("Hi.", { level: LEVEL.WARN });
+      expect(console.warn).toBeCalled();
+      expect(console.warn).toBeCalledTimes(1);
+      expect(console.debug).not.toBeCalled();
+      expect(console.info).not.toBeCalled();
+      expect(console.error).not.toBeCalled();
+    });
+    it("Calls console.error for error", () => {
+      out("Hi.", { level: LEVEL.ERROR });
+      expect(console.error).toBeCalled();
+      expect(console.error).toBeCalledTimes(1);
+      expect(console.debug).not.toBeCalled();
+      expect(console.info).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+    });
+    it("Calls console.error for fatal", () => {
+      out("Hi.", { level: LEVEL.FATAL });
+      expect(console.error).toBeCalled();
+      expect(console.error).toBeCalledTimes(1);
+      expect(console.debug).not.toBeCalled();
+      expect(console.info).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+    });
+    it("Calls console.log for unknown levels", () => {
+      // Spy on console.log
+      jest.spyOn(console, "log");
+      out("Hi.", { level: "taco" });
+      expect(console.error).not.toBeCalled();
+      expect(console.debug).not.toBeCalled();
+      expect(console.info).not.toBeCalled();
+      expect(console.warn).not.toBeCalled();
+      expect(console.log).toBeCalled();
+      expect(console.log).toBeCalledTimes(1);
+      // Restore console.log
+      console.log.mockRestore();
+    });
   });
 });
