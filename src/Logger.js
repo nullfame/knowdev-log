@@ -176,6 +176,7 @@ class Logger {
 
             const json = {
               data: messageObject[messageKey], // will not be stringified
+              dataType: typeof messageObject[messageKey],
               level: LEVEL[LEVEL_KEY],
               message: stringify(messageObject[messageKey]), // message: will be stringified
               var: messageKey,
