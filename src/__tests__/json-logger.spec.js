@@ -61,8 +61,16 @@ describe("Logger", () => {
     });
   });
   describe("Data field", () => {
-    it.todo("Is available when log.var() is called");
-    it.todo("Is available when an object is given to the message");
+    it("Is available when log.var() is called", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("data");
+    });
     it.todo("Future: is available when a JSON string is given to the message");
     it.todo("Future: it tries to recursively parse JSON strings");
     it.todo("Future: is available when log.data() is called");
