@@ -92,7 +92,16 @@ describe("Logger", () => {
       const logObject = mockOut.mock.calls[0][0];
       expect(logObject.message).toBe(JSON.stringify({ hello: "world" }));
     });
-    it.todo("Will toString anything else");
+    it("Will toString anything else", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace(123);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject.message).toBe("123");
+    });
   });
   describe("Tags", () => {
     it("Allows setting global tags in the constructor", () => {
