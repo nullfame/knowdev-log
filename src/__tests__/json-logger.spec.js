@@ -83,7 +83,6 @@ describe("Logger", () => {
       expect(logObject.data).toEqual({ hello: "world" });
       expect(logObject.data.hello).toEqual("world");
     });
-    it.todo("Future: it tries to recursively parse JSON strings");
     it.todo("Future: is available when log.data() is called");
     it.todo("Future: is available when log.val() is called");
   });
