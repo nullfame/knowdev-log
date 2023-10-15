@@ -9,6 +9,7 @@ const {
   LEVEL_VALUES,
 } = require("./util/constants");
 const logFunction = require("./util/log");
+const out = require("./util/out");
 const stringify = require("./util/stringify");
 
 //
@@ -31,7 +32,19 @@ function log(
   { color = COLOR.PLAIN } = {},
 ) {
   if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
+    // TODO: replace log with out
     logFunction(messages, color);
+  }
+}
+
+function outIfLogLevelCheck(
+  message,
+  logLevel,
+  checkLevel = DEFAULT.LEVEL,
+  { color = COLOR.PLAIN } = {},
+) {
+  if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
+    out(message, { color, level: logLevel });
   }
 }
 
@@ -109,7 +122,7 @@ class Logger {
                 message: stringify(...messages), // message: will be stringified
                 ...this.tags,
               };
-              log(json, LEVEL[LEVEL_KEY], level, {
+              outIfLogLevelCheck(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
               });
             };
