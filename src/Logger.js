@@ -60,6 +60,33 @@ function parse(message) {
   }
 }
 
+/**
+ * Returns an object with `parses` if the message is parsable JSON and `message` with the parsed or original message
+ * @param {string} message - The message to parse
+ * @returns {object} - An object with `parses` and `message` properties
+ * @example
+ */
+function parsesTo(message) {
+  if (typeof message !== "string") {
+    return {
+      parses: false,
+      message,
+    };
+  }
+  // Now we know message is a string
+  try {
+    return {
+      parses: true,
+      message: JSON.parse(message),
+    };
+  } catch (error) {
+    return {
+      parses: false,
+      message,
+    };
+  }
+}
+
 //
 //
 // Class Definition
@@ -128,11 +155,16 @@ class Logger {
 
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
+              const message = stringify(...messages);
+              const parses = parsesTo(message);
               const json = {
                 level: LEVEL[LEVEL_KEY],
-                message: stringify(...messages), // message: will be stringified
+                message,
                 ...this.tags,
               };
+              if (parses.parses) {
+                json.data = parses.message;
+              }
               outIfLogLevelCheck(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
               });

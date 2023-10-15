@@ -71,7 +71,18 @@ describe("Logger", () => {
       const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("data");
     });
-    it.todo("Future: is available when a JSON string is given to the message");
+    it("Is available when a JSON string is given to the message", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace(`{"hello":"world"}`);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
     it.todo("Future: it tries to recursively parse JSON strings");
     it.todo("Future: is available when log.data() is called");
     it.todo("Future: is available when log.val() is called");
