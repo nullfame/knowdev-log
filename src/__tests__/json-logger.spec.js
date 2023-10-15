@@ -325,6 +325,21 @@ describe("Logger", () => {
       expect(logObject.data).toEqual({ hello: "world" });
       expect(logObject.data.hello).toEqual("world");
     });
-    it.todo("Parses the data if value is a JSON string");
+    it("Parses the data if value is a JSON string", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("object", `{"hello":"world"}`);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe(`{"hello":"world"}`);
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("object");
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
   });
 });

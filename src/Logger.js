@@ -48,6 +48,18 @@ function outIfLogLevelCheck(
   }
 }
 
+function parse(message) {
+  if (typeof message !== "string") {
+    return message;
+  }
+  // Now we know message is a string
+  try {
+    return JSON.parse(message);
+  } catch (error) {
+    return message;
+  }
+}
+
 //
 //
 // Class Definition
@@ -175,7 +187,7 @@ class Logger {
             const messageKey = Object.keys(messageObject)[0];
 
             const json = {
-              data: messageObject[messageKey], // will not be stringified
+              data: parse(messageObject[messageKey]), // will not be stringified
               dataType: typeof messageObject[messageKey],
               level: LEVEL[LEVEL_KEY],
               message: stringify(messageObject[messageKey]), // message: will be stringified
