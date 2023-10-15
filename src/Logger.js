@@ -117,7 +117,7 @@ class Logger {
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
               const json = {
-                // data: flatOne(...messages) // will not be stringified; absent if message is string
+                // data: flatOne(...messages) // will not be stringified
                 level: LEVEL[LEVEL_KEY],
                 message: stringify(...messages), // message: will be stringified
                 ...this.tags,
@@ -156,15 +156,36 @@ class Logger {
           // Log null object warning
           if (messageObject === null) {
             this.warn(ERROR.VAR.NULL_OBJECT);
-
-            // Log empty object warning
-          } else if (Object.keys(messageObject).length === 0) {
+            return this[LEVEL[LEVEL_KEY]](messageObject);
+          }
+          // Log empty object warning
+          if (Object.keys(messageObject).length === 0) {
             this.warn(ERROR.VAR.EMPTY_OBJECT);
-          } else if (Object.keys(messageObject).length > 1) {
+            return this[LEVEL[LEVEL_KEY]](messageObject);
+          }
+          // Log stuffed object warning
+          if (Object.keys(messageObject).length > 1) {
             this.warn(ERROR.VAR.MULTIPLE_KEYS);
+            return this[LEVEL[LEVEL_KEY]](messageObject);
           }
 
+          //* At this point we know this is an object with one key
+
           // Log the real message
+          if (format === FORMAT.JSON) {
+            const messageKey = Object.keys(messageObject)[0];
+
+            const json = {
+              // data: flatOne(...messages) // will not be stringified
+              level: LEVEL[LEVEL_KEY],
+              message: stringify(messageObject[messageKey]), // message: will be stringified
+              var: messageKey,
+              ...this.tags,
+            };
+            return outIfLogLevelCheck(json, LEVEL[LEVEL_KEY], level, {
+              color: COLOR[LEVEL_KEY],
+            });
+          }
           return this[LEVEL[LEVEL_KEY]](messageObject);
         };
       } // if !PSEUDO_LEVELS

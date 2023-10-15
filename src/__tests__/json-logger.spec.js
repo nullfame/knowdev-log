@@ -271,8 +271,29 @@ describe("Logger", () => {
     });
   });
   describe("log.var()", () => {
-    it.todo("Logs the value as the message");
-    it.todo("Logs the key as var");
+    it("Logs the value as the message", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe("value");
+      // Done
+    });
+    it("Logs the key as var", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("key");
+    });
     it.todo("Logs the value as data");
     it.todo("Stringifies the message if value is an object");
     it.todo("Parses the data if value is a JSON string");
