@@ -309,7 +309,22 @@ describe("Logger", () => {
       expect(logObject).toContainKey("data");
       expect(logObject.data).toBe(12);
     });
-    it.todo("Stringifies the message if value is an object");
+    it("Stringifies the message if value is an object", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("object", { hello: "world" });
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe(`{"hello":"world"}`);
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("object");
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
     it.todo("Parses the data if value is a JSON string");
   });
 });
