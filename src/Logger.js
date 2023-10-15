@@ -117,7 +117,6 @@ class Logger {
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
               const json = {
-                // data: flatOne(...messages) // will not be stringified
                 level: LEVEL[LEVEL_KEY],
                 message: stringify(...messages), // message: will be stringified
                 ...this.tags,
@@ -176,7 +175,7 @@ class Logger {
             const messageKey = Object.keys(messageObject)[0];
 
             const json = {
-              // data: flatOne(...messages) // will not be stringified
+              data: messageObject[messageKey], // will not be stringified
               level: LEVEL[LEVEL_KEY],
               message: stringify(messageObject[messageKey]), // message: will be stringified
               var: messageKey,
