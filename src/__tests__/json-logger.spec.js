@@ -11,9 +11,9 @@ const { LEVEL, FORMAT } = require("../util/constants");
 // Mock modules
 //
 
-const mockLog = jest.fn();
-jest.mock("../util/log", () => (...params) => {
-  mockLog(...params);
+const mockOut = jest.fn();
+jest.mock("../util/out", () => (...params) => {
+  mockOut(...params);
 });
 
 //
@@ -44,29 +44,82 @@ describe("Logger", () => {
       expect(log).toBeObject();
       expect(log.trace).toBeFunction();
       log.trace("log.trace");
-      expect(mockLog).toBeCalled();
+      expect(mockOut).toBeCalled();
     });
     it("Logs JSON", () => {
       log.trace("log.trace");
-      expect(mockLog).toBeCalled();
-      const logObject = mockLog.mock.calls[0][0];
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toBeObject();
     });
     it("Includes message and level keys", () => {
       log.trace("log.trace");
-      expect(mockLog).toBeCalled();
-      const logObject = mockLog.mock.calls[0][0];
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("message");
       expect(logObject).toContainKey("level");
     });
   });
   describe("Data field", () => {
-    it.todo("Is available when log.var() is called");
-    it.todo("Is available when an object is given to the message");
-    it.todo("Future: is available when a JSON string is given to the message");
-    it.todo("Future: it tries to recursively parse JSON strings");
+    it("Is available when log.var() is called", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("data");
+    });
+    it("Is available when a JSON string is given to the message", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace(`{"hello":"world"}`);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
     it.todo("Future: is available when log.data() is called");
     it.todo("Future: is available when log.val() is called");
+  });
+  describe("Message", () => {
+    it("Will stringify the message if it is an object", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace({ hello: "world" });
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBeString();
+      expect(JSON.parse(logObject.message)).toEqual({ hello: "world" });
+      // expect(logObject.message).toBe(`{"hello":"world"}`);
+    });
+    it("Will minify when stringify takes place", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace({ hello: "world" });
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject.message).toBe(JSON.stringify({ hello: "world" }));
+    });
+    it("Will toString anything else", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.trace(123);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject.message).toBe("123");
+    });
   });
   describe("Tags", () => {
     it("Allows setting global tags in the constructor", () => {
@@ -79,7 +132,7 @@ describe("Logger", () => {
       // Act
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe("value");
       // Done
@@ -94,7 +147,7 @@ describe("Logger", () => {
       // Act
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe(`["value"]`);
       // Done
@@ -109,7 +162,7 @@ describe("Logger", () => {
       // Act
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe("null");
       // Done
@@ -121,7 +174,7 @@ describe("Logger", () => {
       log.tag("key", "value");
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe("value");
     });
@@ -132,7 +185,7 @@ describe("Logger", () => {
       log.tag({ hello: "world", key: "value" });
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("hello");
       expect(logObject).toContainKey("key");
       expect(logObject.hello).toBe("world");
@@ -145,7 +198,7 @@ describe("Logger", () => {
       log.tag({ hello: "world", key: ["value"] });
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("hello");
       expect(logObject).toContainKey("key");
       expect(logObject.hello).toBe("world");
@@ -158,7 +211,7 @@ describe("Logger", () => {
       log.tag({ key: undefined });
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe(``);
     });
@@ -173,7 +226,7 @@ describe("Logger", () => {
       log.untag("key");
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).not.toContainKey("key");
     });
     it("Allows removing tags by array", () => {
@@ -187,7 +240,7 @@ describe("Logger", () => {
       log.untag(["key", "hello"]);
       log.trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).not.toContainKey("key");
       expect(logObject).not.toContainKey("hello");
     });
@@ -197,7 +250,7 @@ describe("Logger", () => {
       // Act
       log.with("key", "value").trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("key");
       expect(logObject.key).toBe("value");
     });
@@ -207,7 +260,7 @@ describe("Logger", () => {
       // Act
       log.with({ hello: "world", key: ["value"] }).trace("log.trace");
       // Assert
-      const logObject = mockLog.mock.calls[0][0];
+      const logObject = mockOut.mock.calls[0][0];
       expect(logObject).toContainKey("hello");
       expect(logObject).toContainKey("key");
       expect(logObject.hello).toBe("world");
@@ -224,22 +277,87 @@ describe("Logger", () => {
       log.with("key", "value").info("log.info");
       log.trace("log.trace");
       // Assert
-      const taggedLogObject = mockLog.mock.calls[0][0];
+      const taggedLogObject = mockOut.mock.calls[0][0];
       expect(taggedLogObject).toContainKey("hello");
       expect(taggedLogObject).toContainKey("key");
       expect(taggedLogObject.hello).toBe("world");
       expect(taggedLogObject.key).toBe("value");
-      const untaggedLogObject = mockLog.mock.calls[1][0];
+      const untaggedLogObject = mockOut.mock.calls[1][0];
       expect(untaggedLogObject).toContainKey("hello");
       expect(taggedLogObject.hello).toBe("world");
       expect(untaggedLogObject).not.toContainKey("key");
     });
   });
   describe("log.var()", () => {
-    it.todo("Logs the value as the message");
-    it.todo("Logs the key as var");
-    it.todo("Logs the value as data");
-    it.todo("Stringifies the message if value is an object");
-    it.todo("Parses the data if value is a JSON string");
+    it("Logs the value as the message", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe("value");
+      // Done
+    });
+    it("Logs the key as var", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("key", "value");
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("key");
+    });
+    it("Logs the value as data", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("number", 12);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe("12");
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("number");
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toBe(12);
+    });
+    it("Stringifies the message if value is an object", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("object", { hello: "world" });
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe(`{"hello":"world"}`);
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("object");
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
+    it("Parses the data if value is a JSON string", () => {
+      // Arrange
+      // N/A
+      // Act
+      log.var("object", `{"hello":"world"}`);
+      // Assert
+      expect(mockOut).toBeCalled();
+      const logObject = mockOut.mock.calls[0][0];
+      expect(logObject).toContainKey("message");
+      expect(logObject.message).toBe(`{"hello":"world"}`);
+      expect(logObject).toContainKey("var");
+      expect(logObject.var).toBe("object");
+      expect(logObject).toContainKey("data");
+      expect(logObject.data).toEqual({ hello: "world" });
+      expect(logObject.data.hello).toEqual("world");
+    });
   });
 });

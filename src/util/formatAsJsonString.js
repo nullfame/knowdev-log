@@ -4,7 +4,7 @@
 //
 
 const formatAsJsonString = (subject) => {
-  const SPACES = 2;
+  const SPACES = 0;
   const UNUSED_PARAM = null;
 
   switch (typeof subject) {

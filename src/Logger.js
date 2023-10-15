@@ -2,22 +2,20 @@ const { force } = require("@knowdev/arguments");
 
 const {
   COLOR,
+  DEFAULT,
   ERROR,
   FORMAT,
   LEVEL,
   LEVEL_VALUES,
 } = require("./util/constants");
 const logFunction = require("./util/log");
+const out = require("./util/out");
 const stringify = require("./util/stringify");
 
 //
 //
 // Constants
 //
-
-const DEFAULT_LOG_FORMAT = FORMAT.COLOR;
-const DEFAULT_LOG_LEVEL = LEVEL.DEBUG;
-const DEFAULT_LOG_VAR_LEVEL = LEVEL.DEBUG;
 
 const PSEUDO_LEVELS = ["ALL", "SILENT"];
 
@@ -30,11 +28,62 @@ const PSEUDO_LEVELS = ["ALL", "SILENT"];
 function log(
   messages,
   logLevel,
-  checkLevel = DEFAULT_LOG_LEVEL,
+  checkLevel = DEFAULT.LEVEL,
   { color = COLOR.PLAIN } = {},
 ) {
   if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
+    // TODO: replace log with out
     logFunction(messages, color);
+  }
+}
+
+function outIfLogLevelCheck(
+  message,
+  logLevel,
+  checkLevel = DEFAULT.LEVEL,
+  { color = COLOR.PLAIN } = {},
+) {
+  if (LEVEL_VALUES[logLevel] <= LEVEL_VALUES[checkLevel]) {
+    out(message, { color, level: logLevel });
+  }
+}
+
+function parse(message) {
+  if (typeof message !== "string") {
+    return message;
+  }
+  // Now we know message is a string
+  try {
+    return JSON.parse(message);
+  } catch (error) {
+    return message;
+  }
+}
+
+/**
+ * Returns an object with `parses` if the message is parsable JSON and `message` with the parsed or original message
+ * @param {string} message - The message to parse
+ * @returns {object} - An object with `parses` and `message` properties
+ * @example
+ */
+function parsesTo(message) {
+  if (typeof message !== "string") {
+    return {
+      parses: false,
+      message,
+    };
+  }
+  // Now we know message is a string
+  try {
+    return {
+      parses: true,
+      message: JSON.parse(message),
+    };
+  } catch (error) {
+    return {
+      parses: false,
+      message,
+    };
   }
 }
 
@@ -50,10 +99,10 @@ class Logger {
   //
 
   constructor({
-    format = process.env.LOG_FORMAT || DEFAULT_LOG_FORMAT,
-    level = process.env.LOG_LEVEL || DEFAULT_LOG_LEVEL,
+    format = process.env.LOG_FORMAT || DEFAULT.FORMAT,
+    level = process.env.LOG_LEVEL || DEFAULT.LEVEL,
     tags = {},
-    varLevel = process.env.LOG_VAR_LEVEL || DEFAULT_LOG_VAR_LEVEL,
+    varLevel = process.env.LOG_VAR_LEVEL || DEFAULT.VAR_LEVEL,
   } = {}) {
     //
     //
@@ -106,13 +155,17 @@ class Logger {
 
           case FORMAT.JSON:
             this[LEVEL[LEVEL_KEY]] = (...messages) => {
+              const message = stringify(...messages);
+              const parses = parsesTo(message);
               const json = {
-                // data: flatOne(...messages) // will not be stringified; absent if message is string
                 level: LEVEL[LEVEL_KEY],
-                message: stringify(...messages), // message: will be stringified
+                message,
                 ...this.tags,
               };
-              log(json, LEVEL[LEVEL_KEY], level, {
+              if (parses.parses) {
+                json.data = parses.message;
+              }
+              outIfLogLevelCheck(json, LEVEL[LEVEL_KEY], level, {
                 color: COLOR[LEVEL_KEY],
               });
             };
@@ -146,15 +199,37 @@ class Logger {
           // Log null object warning
           if (messageObject === null) {
             this.warn(ERROR.VAR.NULL_OBJECT);
-
-            // Log empty object warning
-          } else if (Object.keys(messageObject).length === 0) {
+            return this[LEVEL[LEVEL_KEY]](messageObject);
+          }
+          // Log empty object warning
+          if (Object.keys(messageObject).length === 0) {
             this.warn(ERROR.VAR.EMPTY_OBJECT);
-          } else if (Object.keys(messageObject).length > 1) {
+            return this[LEVEL[LEVEL_KEY]](messageObject);
+          }
+          // Log stuffed object warning
+          if (Object.keys(messageObject).length > 1) {
             this.warn(ERROR.VAR.MULTIPLE_KEYS);
+            return this[LEVEL[LEVEL_KEY]](messageObject);
           }
 
+          //* At this point we know this is an object with one key
+
           // Log the real message
+          if (format === FORMAT.JSON) {
+            const messageKey = Object.keys(messageObject)[0];
+
+            const json = {
+              data: parse(messageObject[messageKey]), // will not be stringified
+              dataType: typeof messageObject[messageKey],
+              level: LEVEL[LEVEL_KEY],
+              message: stringify(messageObject[messageKey]), // message: will be stringified
+              var: messageKey,
+              ...this.tags,
+            };
+            return outIfLogLevelCheck(json, LEVEL[LEVEL_KEY], level, {
+              color: COLOR[LEVEL_KEY],
+            });
+          }
           return this[LEVEL[LEVEL_KEY]](messageObject);
         };
       } // if !PSEUDO_LEVELS

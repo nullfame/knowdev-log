@@ -10,6 +10,13 @@ const COLOR = {
   FATAL: chalk.bgRedBright,
 };
 
+const DEFAULT = {
+  COLOR: chalk,
+  LEVEL: "debug",
+  FORMAT: "color",
+  VAR_LEVEL: "debug",
+};
+
 const ERROR_PREFIX = '{ "lib": "@knowdev/log" }:';
 const ERROR = {
   VAR: {
@@ -51,6 +58,7 @@ const LEVEL_VALUES = {
 
 module.exports = {
   COLOR,
+  DEFAULT,
   ERROR,
   FORMAT,
   LEVEL,
