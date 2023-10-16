@@ -158,7 +158,7 @@ class Logger {
               const message = stringify(...messages);
               const parses = parsesTo(message);
               const json = {
-                level: LEVEL[LEVEL_KEY],
+                log: LEVEL[LEVEL_KEY], // Do not use "level," reserved by Datadog
                 message,
                 ...this.tags,
               };
@@ -221,7 +221,7 @@ class Logger {
             const json = {
               data: parse(messageObject[messageKey]), // will not be stringified
               dataType: typeof messageObject[messageKey],
-              level: LEVEL[LEVEL_KEY],
+              log: LEVEL[LEVEL_KEY], // Do not use "level," reserved by Datadog
               message: stringify(messageObject[messageKey]), // message: will be stringified
               var: messageKey,
               ...this.tags,

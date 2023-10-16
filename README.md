@@ -75,6 +75,7 @@ npm publish --access=public
 
 ## 📝 Changelog
 
+* v1.0.2 - JSON format fixes (level -> log)
 * v1.0.1 - JSON format fixes (var, console function)
 * v1.0.0 - Supports JSON type
 * v0.4.0 - Exports moduleLogger
